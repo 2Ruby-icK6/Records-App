@@ -52,6 +52,9 @@
         </div>
         <div class="main-panel">
         <?php include('Includes/navabar.php'); ?>
+        <a class="btn btn-primary" href="#" role="button">Add Office</a>
+        <a class="btn btn-primary" href="#" role="button">Delete Office</a>
+        <a class="btn btn-primary" href="#" role="button">Edit Office</a>
             
             <div class="content">
                 <div class="container-fluid">

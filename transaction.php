@@ -30,7 +30,7 @@
 
     //Create Query
     $query = 'SELECT transaction.datelog, transaction.documentcode, transaction.action, office.name AS office_name, 
-    CONCAT(employee.lastname,"," ,employee.firstname) AS employee_fullname FROM recordsapp.employee, recordsapp.office, 
+    CONCAT(employee.lastname,"," ,employee.firstname) AS employee_fullname, transaction.remarks FROM recordsapp.employee, recordsapp.office, 
     recordsapp.transaction WHERE transaction.employee_id = employee.id AND transaction.office_id = office.id';
 
     //Get the Result
@@ -44,6 +44,8 @@
 
     //Close the Connection
     mysqli_close($conn);
+
+    
 ?>
 
     <div class="wrapper">
@@ -54,7 +56,9 @@
         </div>
         <div class="main-panel">
         <?php include('Includes/navabar.php'); ?>
-            
+        <a class="btn btn-primary" href="#" role="button">Add Transaction</a>
+        <a class="btn btn-primary" href="#" role="button">Delete Transaction</a>
+        <a class="btn btn-primary" href="#" role="button">Edit Transaction</a>
             <div class="content">
                 <div class="container-fluid">
                     <div class="section">
@@ -65,7 +69,9 @@
                                         <h4 class="card-title">Transactions</h4>
                                         <p class="card-category">Here is a subtitle for this table</p>
                                     </div>
+                                    
                                     <div class="card-body table-full-width table-responsive">
+                                    
                                         <table class="table table-hover table-striped">
                                             <thead>
                                                 <th>Date Log</th>
