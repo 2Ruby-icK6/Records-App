@@ -73,7 +73,7 @@
                                                 <th>Action</th>
                                                 <th>Office</th>
                                                 <th>Employee</th>
-                                                <th>Remakrs</th>
+                                                <th>Remarks</th>
                                             </thead>
                                             <tbody>
                                                 <?php foreach($transactions as $transaction) :?>
