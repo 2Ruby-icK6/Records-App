@@ -1,3 +1,5 @@
+<!-- real_escape_string used for to accept special characters -->
+
 <?php
     require('scripts/data_init/vendor/autoload.php');
 
