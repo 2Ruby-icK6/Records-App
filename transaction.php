@@ -56,15 +56,18 @@
         </div>
         <div class="main-panel">
         <?php include('Includes/navabar.php'); ?>
-        <a class="btn btn-primary" href="#" role="button">Add Transaction</a>
-        <a class="btn btn-primary" href="#" role="button">Delete Transaction</a>
-        <a class="btn btn-primary" href="#" role="button">Edit Transaction</a>
             <div class="content">
                 <div class="container-fluid">
                     <div class="section">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card strpied-tabled-with-hover">
+                                    <br/>
+                                    <div class="col-md-12">
+                                        <a href="crud_files/add_transaction.php">
+                                            <button type='submit' class='btn btn-info btn-fill pull-right'>Add New Transaction</button>
+                                        </a>
+                                    </div>
                                     <div class="card-header ">
                                         <h4 class="card-title">Transactions</h4>
                                         <p class="card-category">Here is a subtitle for this table</p>
