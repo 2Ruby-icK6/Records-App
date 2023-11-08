@@ -126,12 +126,12 @@
                                                 <td><?php echo $office['country'];?></td>
                                                 <td><?php echo $office['postal'];?></td>
                                                 <td>
-                                                    <a href="crud_files/edit_offices.php?id=<?php echo $office['id'];?>">
+                                                    <a href="crud_files/edit_office.php?id=<?php echo $office['id'];?>">
                                                         <button type="submit" class="btn btn-warning btn-fill pull-right">Edit</button>
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <a href="crud_files/delete_offices.php?id=<?php echo $office['id'];?>">
+                                                    <a href="crud_files/delete_office.php?id=<?php echo $office['id'];?>">
                                                         <button type="submit" class="btn btn-warning btn-fill pull-right">Delete</button>
                                                     </a>
                                                 </td>

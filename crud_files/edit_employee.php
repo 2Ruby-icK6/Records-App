@@ -72,8 +72,8 @@
         $address = mysqli_real_escape_string($conn, $_POST['address']); 
 
         // Create insert query
-        $query = "UPDATE employee SET lastname='$lastname', firstname='$firstname', office_id='$office_id' address='$address'
-            WHERE id=". $id;
+        $query = "UPDATE employee SET lastname='$lastname', firstname='$firstname', office_id='$office_id', address='$address'
+            WHERE (id=" . $id . ")";
             
         // Execute query
         if(mysqli_query($conn, $query)){
