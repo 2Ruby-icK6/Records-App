@@ -2,19 +2,11 @@
 
 <?php
     require('scripts/data_init/vendor/autoload.php');
-
+    require('config/config.php');
+    require('config/db.php');
     $faker = Faker\Factory::create('en_PH');
-    $host = 'localhost';
-    $username = 'root';
-    $password = '12345';
-    $database = 'recordsapp';
     
     // Create a mysqli database connection
-    $conn = new mysqli($host, $username, $password, $database);
-    
-    if ($conn->connect_error) {
-        die("Database connection failed: " . $conn->connect_error);
-    }
     
     // Office (50 rows)-> id, name, contactnum, email, address, city, country, postal
     for ($i = 1; $i <= 50; $i++) {
