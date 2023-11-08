@@ -131,6 +131,16 @@
                                                 <td><?php echo $transaction['office_name'];?></td>
                                                 <td><?php echo $transaction['employee_fullname'];?></td>
                                                 <td><?php echo $transaction['remarks'];?></td>
+                                                <td>
+                                                    <a href="crud_files/edit_transaction.php?id=<?php echo $office['id'];?>">
+                                                        <button type="submit" class="btn btn-warning btn-fill pull-right">Edit</button>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href="crud_files/delete_transaction.php?id=<?php echo $office['id'];?>">
+                                                        <button type="submit" class="btn btn-warning btn-fill pull-right">Delete</button>
+                                                    </a>
+                                                </td>
                                             </tr>
                                             <?php endforeach ?>
                                         </tbody>

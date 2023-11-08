@@ -86,14 +86,14 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card strpied-tabled-with-hover">
-                            <br/>
+                                <br/>
                             <!-- <div class="col-md-10">
                                     <form action="office.php" method="GET">
                                         <input type="text" name='search' />
                                         <input type="submit" value='Search' class='btn btn-info btn-fill' />
                                     </form>
-                                </div>
-                                <div class="col-md-12"> -->
+                                </div> -->
+                                <div class="col-md-12">
                                     <a href="crud_files/add_office.php">
                                         <button type='submit' class='btn btn-info btn-fill pull-left'>Add New Office</button>
                                     </a>
@@ -123,6 +123,16 @@
                                                 <td><?php echo $office['city'];?></td>
                                                 <td><?php echo $office['country'];?></td>
                                                 <td><?php echo $office['postal'];?></td>
+                                                <td>
+                                                    <a href="crud_files/edit_offices.php?id=<?php echo $office['id'];?>">
+                                                        <button type="submit" class="btn btn-warning btn-fill pull-right">Edit</button>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href="crud_files/delete_offices.php?id=<?php echo $office['id'];?>">
+                                                        <button type="submit" class="btn btn-warning btn-fill pull-right">Delete</button>
+                                                    </a>
+                                                </td>
                                             </tr>
                                             <?php endforeach ?>
                                         </tbody>

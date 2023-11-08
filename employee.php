@@ -93,11 +93,10 @@
                                         <input type="text" name='search' />
                                         <input type="submit" value='Search' class='btn btn-info btn-fill' />
                                     </form>
-                                </div>
-                                <div class="col-md-12"> -->
+                                </div> -->
                                 <div class="col-md-12">
                                     <a href="crud_files/add_employee.php">
-                                        <button type='submit' class='btn btn-info btn-fill pull-right'>Add New Employee</button>
+                                        <button type='submit' class='btn btn-info btn-fill pull-left'>Add New Employee</button>
                                     </a>
                                 </div>
                                 <div class="card-header ">
@@ -119,6 +118,16 @@
                                                 <td><?php echo $employee['firstname'];?></td>
                                                 <td><?php echo $employee['address'];?></td>
                                                 <td><?php echo $employee['office_name'];?></td>
+                                                <td>
+                                                    <a href="crud_files/edit_employee.php?id=<?php echo $office['id'];?>">
+                                                        <button type="submit" class="btn btn-warning btn-fill pull-right">Edit</button>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href="crud_files/delete_employee.php?id=<?php echo $office['id'];?>">
+                                                        <button type="submit" class="btn btn-warning btn-fill pull-right">Delete</button>
+                                                    </a>
+                                                </td>
                                             </tr>
                                             <?php endforeach ?>
                                         </tbody>
