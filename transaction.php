@@ -49,11 +49,11 @@
     $page_first_result = ($page-1) * $results_per_page;
 
     if (strlen($search)>0){
-        $query = 'SELECT transaction.datelog, transaction.documentcode, transaction.action, office.name AS office_name, 
+        $query = 'SELECT transaction.id, transaction.datelog, transaction.documentcode, transaction.action, office.name AS office_name, 
             CONCAT(employee.lastname,"," ,employee.firstname) AS employee_fullname, transaction.remarks FROM recordsapp.employee, recordsapp.office, recordsapp.transaction 
             WHERE transaction.employee_id = employee.id AND transaction.office_id = office.id AND transaction.documentcode =' . $search . ' ORDER BY transaction.documentcode, transaction.datelog LIMIT '. $page_first_result . ','. $results_per_page;
     }else{
-        $query = 'SELECT transaction.datelog, transaction.documentcode, transaction.action, office.name AS office_name, 
+        $query = 'SELECT transaction.id, transaction.datelog, transaction.documentcode, transaction.action, office.name AS office_name, 
             CONCAT(employee.lastname,"," ,employee.firstname) AS employee_fullname, transaction.remarks FROM recordsapp.employee, recordsapp.office, recordsapp.transaction 
             WHERE transaction.employee_id = employee.id AND transaction.office_id = office.id LIMIT '. $page_first_result . ','. $results_per_page;
     }
@@ -121,6 +121,8 @@
                                             <th>Office</th>
                                             <th>Employee</th>
                                             <th>Remarks</th>
+                                            <th>Edit</th>
+                                            <th>Delete</th>
                                         </thead>
                                         <tbody>
                                             <?php foreach($transactions as $transaction) :?>
@@ -132,12 +134,12 @@
                                                 <td><?php echo $transaction['employee_fullname'];?></td>
                                                 <td><?php echo $transaction['remarks'];?></td>
                                                 <td>
-                                                    <a href="crud_files/edit_transaction.php?id=<?php echo $office['id'];?>">
+                                                    <a href="crud_files/edit_transaction.php?id=<?php echo $transaction['id'];?>">
                                                         <button type="submit" class="btn btn-warning btn-fill pull-right">Edit</button>
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <a href="crud_files/delete_transaction.php?id=<?php echo $office['id'];?>">
+                                                    <a href="crud_files/delete_transaction.php?id=<?php echo $transaction['id'];?>">
                                                         <button type="submit" class="btn btn-warning btn-fill pull-right">Delete</button>
                                                     </a>
                                                 </td>

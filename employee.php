@@ -55,7 +55,7 @@
     // }
 
     //Create Query
-    $query = 'SELECT employee.lastname, employee.firstname, employee.address, office.name AS office_name FROM employee, office 
+    $query = 'SELECT employee.id, employee.lastname, employee.firstname, employee.address, office.name AS office_name FROM employee, office 
         WHERE employee.office_id = office.id ORDER BY employee.lastname LIMIT '. $page_first_result . ','. $results_per_page;
 
     //Get the Result
@@ -110,6 +110,8 @@
                                             <th>First name</th>
                                             <th>Address</th>
                                             <th>Office</th>
+                                            <th>Edit</th>
+                                            <th>Delete</th>
                                         </thead>
                                         <tbody>
                                             <?php foreach($employees as $employee) :?>
@@ -119,12 +121,12 @@
                                                 <td><?php echo $employee['address'];?></td>
                                                 <td><?php echo $employee['office_name'];?></td>
                                                 <td>
-                                                    <a href="crud_files/edit_employee.php?id=<?php echo $office['id'];?>">
+                                                    <a href="crud_files/edit_employee.php?id=<?php echo $employee['id'];?>">
                                                         <button type="submit" class="btn btn-warning btn-fill pull-right">Edit</button>
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <a href="crud_files/delete_employee.php?id=<?php echo $office['id'];?>">
+                                                    <a href="crud_files/delete_employee.php?id=<?php echo $employee['id'];?>">
                                                         <button type="submit" class="btn btn-warning btn-fill pull-right">Delete</button>
                                                     </a>
                                                 </td>

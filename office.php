@@ -112,6 +112,8 @@
                                             <th>City</th>
                                             <th>Country</th>
                                             <th>Postal</th>
+                                            <th>Edit</th>
+                                            <th>Delete</th>
                                         </thead>
                                         <tbody>
                                             <?php foreach($offices as $office) :?>
