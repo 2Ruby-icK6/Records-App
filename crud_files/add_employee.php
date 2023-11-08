@@ -8,7 +8,7 @@
 
     <form action="" method="POST">
         <label>Last Name:</label><input type="text" name="last_name" required><br></br>
-        <label>First Name:</label><input type="number" name="first_name" required><br></br>
+        <label>First Name:</label><input type="text" name="first_name" required><br></br>
         <label>Office ID:</label>
             <select name="office_id" id="office_id" required>
                 <?php
@@ -29,8 +29,6 @@
 </body>
 </html>
 <?php
-    require('..\config\config.php');
-    require('..\config\db.php'); 
 
     if (isset($_POST['submit'])) {
         $last_name = $_POST["last_name"];
@@ -55,4 +53,5 @@
     else{
         echo "Fill out all fields";
     }
+
 ?>
