@@ -28,6 +28,8 @@
     require('config/config.php');
     require('config/db.php');
 
+    // $search = $_GET['search']. "";
+
     $results_per_page = 10;
 
     $query = "SELECT * FROM employee";
@@ -44,6 +46,13 @@
     }
 
     $page_first_result = ($page-1) * $results_per_page;
+
+    // if (strlen($search)>0){
+    //     $query = 'SELECT * FROM office where office.name =' . $search . ' ORDER BY office.name LIMIT ' . $page_first_result . ','. $results_per_page;
+        
+    // }else{
+    //     $query = 'SELECT * FROM office ORDER BY name LIMIT '. $page_first_result . ','. $results_per_page;
+    // }
 
     //Create Query
     $query = 'SELECT employee.lastname, employee.firstname, employee.address, office.name AS office_name FROM employee, office 
@@ -79,6 +88,13 @@
                         <div class="col-md-12">
                             <div class="card strpied-tabled-with-hover">
                                 <br/>
+                                <!-- <div class="col-md-10">
+                                    <form action="office.php" method="GET">
+                                        <input type="text" name='search' />
+                                        <input type="submit" value='Search' class='btn btn-info btn-fill' />
+                                    </form>
+                                </div>
+                                <div class="col-md-12"> -->
                                 <div class="col-md-12">
                                     <a href="crud_files/add_employee.php">
                                         <button type='submit' class='btn btn-info btn-fill pull-right'>Add New Employee</button>

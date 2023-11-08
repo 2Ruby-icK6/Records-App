@@ -47,8 +47,8 @@
         $office_id = mysqli_real_escape_string($conn, $_POST['office_id']); 
 
         // Create insert query
-        $query = "INSERT INTO transaction (documentcode, action, remarks, employee_id, office_id) 
-            VALUES ('$documentcode', '$action', '$remarks', '$employee_id','$office_id')";
+        $query = "INSERT INTO transaction (datelog, documentcode, action, remarks, employee_id, office_id) 
+            VALUES (sysdate(), '$documentcode', '$action', '$remarks', '$employee_id','$office_id')";
             
         // Execute query
         if(mysqli_query($conn, $query)){

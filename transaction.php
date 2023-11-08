@@ -28,6 +28,8 @@
     require('config/config.php');
     require('config/db.php');
 
+    $search = $_GET['search'];
+
     $results_per_page = 10;
 
     $query = "SELECT * FROM transaction";
@@ -46,10 +48,20 @@
     // determine the sql LIMIT starting number for the results on the display page 
     $page_first_result = ($page-1) * $results_per_page;
 
+    if (strlen($search)>0){
+        $query = 'SELECT transaction.datelog, transaction.documentcode, transaction.action, office.name AS office_name, 
+            CONCAT(employee.lastname,"," ,employee.firstname) AS employee_fullname, transaction.remarks FROM recordsapp.employee, recordsapp.office, recordsapp.transaction 
+            WHERE transaction.employee_id = employee.id AND transaction.office_id = office.id AND transaction.documentcode =' . $search . ' ORDER BY transaction.documentcode, transaction.datelog LIMIT '. $page_first_result . ','. $results_per_page;
+    }else{
+        $query = 'SELECT transaction.datelog, transaction.documentcode, transaction.action, office.name AS office_name, 
+            CONCAT(employee.lastname,"," ,employee.firstname) AS employee_fullname, transaction.remarks FROM recordsapp.employee, recordsapp.office, recordsapp.transaction 
+            WHERE transaction.employee_id = employee.id AND transaction.office_id = office.id LIMIT '. $page_first_result . ','. $results_per_page;
+    }
+
     //Create Query
-    $query = 'SELECT transaction.datelog, transaction.documentcode, transaction.action, office.name AS office_name, 
-    CONCAT(employee.lastname,"," ,employee.firstname) AS employee_fullname, transaction.remarks FROM recordsapp.employee, recordsapp.office, 
-    recordsapp.transaction WHERE transaction.employee_id = employee.id AND transaction.office_id = office.id LIMIT '. $page_first_result . ','. $results_per_page;
+    // $query = 'SELECT transaction.datelog, transaction.documentcode, transaction.action, office.name AS office_name, 
+    //     CONCAT(employee.lastname,"," ,employee.firstname) AS employee_fullname, transaction.remarks FROM recordsapp.employee, recordsapp.office, recordsapp.transaction 
+    //     WHERE transaction.employee_id = employee.id AND transaction.office_id = office.id LIMIT '. $page_first_result . ','. $results_per_page;
 
     //Get the Result
     $result =  mysqli_query($conn, $query);
@@ -82,10 +94,16 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card strpied-tabled-with-hover">
-                                <br/>
+                            <br/>
+                            <div class="col-md-10">
+                                    <form action="transaction.php" method="GET">
+                                        <input type="text" name='search' />
+                                        <input type="submit" value='Search' class='btn btn-info btn-fill' />
+                                    </form>
+                                </div>
                                 <div class="col-md-12">
                                     <a href="crud_files/add_transaction.php">
-                                        <button type='submit' class='btn btn-info btn-fill pull-right'>Add New Transaction</button>
+                                        <button type='submit' class='btn btn-info btn-fill pull-left'>Add New Transaction</button>
                                     </a>
                                 </div>
                                 <div class="card-header ">
