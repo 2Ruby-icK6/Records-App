@@ -28,8 +28,26 @@
     require('config/config.php');
     require('config/db.php');
 
+    $results_per_page = 10;
+
+    $query = "SELECT * FROM employee";
+    $result = mysqli_query($conn, $query); 
+    $number_of_result = mysqli_num_rows($result);
+
+    $number_of_page = ceil($number_of_result / $results_per_page);
+
+    if(!isset($_GET['page'])){
+        $page = 1;
+    }
+    else{
+        $page = $_GET['page'];
+    }
+
+    $page_first_result = ($page-1) * $results_per_page;
+
     //Create Query
-    $query = 'SELECT employee.lastname, employee.firstname, employee.address, office.name AS office_name FROM employee, office WHERE employee.office_id = office.id';
+    $query = 'SELECT employee.lastname, employee.firstname, employee.address, office.name AS office_name FROM employee, office 
+        WHERE employee.office_id = office.id ORDER BY employee.lastname LIMIT '. $page_first_result . ','. $results_per_page;
 
     //Get the Result
     $result =  mysqli_query($conn, $query);
@@ -56,43 +74,48 @@
             <div class="content">
                 <div class="container-fluid">
                     <div class="section">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card strpied-tabled-with-hover">
-                                    <br/>
-                                    <div class="col-md-12">
-                                        <a href="crud_files/add_employee.php">
-                                            <button type='submit' class='btn btn-info btn-fill pull-right'>Add New Employee</button>
-                                        </a>
-                                    </div>
-                                    <div class="card-header ">
-                                        <h4 class="card-title">Employees</h4>
-                                        <p class="card-category">Here is a subtitle for this table</p>
-                                    </div>
-                                    <div class="card-body table-full-width table-responsive">
-                                        <table class="table table-hover table-striped">
-                                            <thead>
-                                                <th>Last name</th>
-                                                <th>First name</th>
-                                                <th>Address</th>
-                                                <th>Office</th>
-                                            </thead>
-                                            <tbody>
-                                                <?php foreach($employees as $employee) :?>
-                                                <tr>
-                                                    <td><?php echo $employee['lastname'];?></td>
-                                                    <td><?php echo $employee['firstname'];?></td>
-                                                    <td><?php echo $employee['address'];?></td>
-                                                    <td><?php echo $employee['office_name'];?></td>
-                                                </tr>
-                                                <?php endforeach ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card strpied-tabled-with-hover">
+                                <br/>
+                                <div class="col-md-12">
+                                    <a href="crud_files/add_employee.php">
+                                        <button type='submit' class='btn btn-info btn-fill pull-right'>Add New Employee</button>
+                                    </a>
+                                </div>
+                                <div class="card-header ">
+                                    <h4 class="card-title">Employees</h4>
+                                    <p class="card-category">Here is a subtitle for this table</p>
+                                </div>
+                                <div class="card-body table-full-width table-responsive">
+                                    <table class="table table-hover table-striped">
+                                        <thead>
+                                            <th>Last name</th>
+                                            <th>First name</th>
+                                            <th>Address</th>
+                                            <th>Office</th>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach($employees as $employee) :?>
+                                            <tr>
+                                                <td><?php echo $employee['lastname'];?></td>
+                                                <td><?php echo $employee['firstname'];?></td>
+                                                <td><?php echo $employee['address'];?></td>
+                                                <td><?php echo $employee['office_name'];?></td>
+                                            </tr>
+                                            <?php endforeach ?>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <?php
+                        for($page=1; $page <= $number_of_page; $page++){
+                            echo '<a href="employee.php?page='. $page . '">' . $page. '</a>';
+                        }
+                    ?>
                 </div>
             </div>
             <footer class="footer">

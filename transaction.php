@@ -28,10 +28,28 @@
     require('config/config.php');
     require('config/db.php');
 
+    $results_per_page = 10;
+
+    $query = "SELECT * FROM transaction";
+    $result = mysqli_query($conn, $query); 
+    $number_of_result = mysqli_num_rows($result);
+
+    $number_of_page = ceil($number_of_result / $results_per_page);
+
+    if(!isset($_GET['page'])){
+        $page = 1;
+    }
+    else{
+        $page = $_GET['page'];
+    }
+    
+    // determine the sql LIMIT starting number for the results on the display page 
+    $page_first_result = ($page-1) * $results_per_page;
+
     //Create Query
     $query = 'SELECT transaction.datelog, transaction.documentcode, transaction.action, office.name AS office_name, 
     CONCAT(employee.lastname,"," ,employee.firstname) AS employee_fullname, transaction.remarks FROM recordsapp.employee, recordsapp.office, 
-    recordsapp.transaction WHERE transaction.employee_id = employee.id AND transaction.office_id = office.id';
+    recordsapp.transaction WHERE transaction.employee_id = employee.id AND transaction.office_id = office.id LIMIT '. $page_first_result . ','. $results_per_page;
 
     //Get the Result
     $result =  mysqli_query($conn, $query);
@@ -56,52 +74,58 @@
         </div>
         <div class="main-panel">
         <?php include('Includes/navabar.php'); ?>
+
             <div class="content">
                 <div class="container-fluid">
                     <div class="section">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card strpied-tabled-with-hover">
-                                    <br/>
-                                    <div class="col-md-12">
-                                        <a href="crud_files/add_transaction.php">
-                                            <button type='submit' class='btn btn-info btn-fill pull-right'>Add New Transaction</button>
-                                        </a>
-                                    </div>
-                                    <div class="card-header ">
-                                        <h4 class="card-title">Transactions</h4>
-                                        <p class="card-category">Here is a subtitle for this table</p>
-                                    </div>
-                                    
-                                    <div class="card-body table-full-width table-responsive">
-                                    
-                                        <table class="table table-hover table-striped">
-                                            <thead>
-                                                <th>Date Log</th>
-                                                <th>Document Code</th>
-                                                <th>Action</th>
-                                                <th>Office</th>
-                                                <th>Employee</th>
-                                                <th>Remarks</th>
-                                            </thead>
-                                            <tbody>
-                                                <?php foreach($transactions as $transaction) :?>
-                                                <tr>
-                                                    <td><?php echo $transaction['datelog'];?></td>
-                                                    <td><?php echo $transaction['documentcode'];?></td>
-                                                    <td><?php echo $transaction['action'];?></td>
-                                                    <td><?php echo $transaction['office_name'];?></td>
-                                                    <td><?php echo $transaction['employee_fullname'];?></td>
-                                                    <td><?php echo $transaction['remarks'];?></td>
-                                                </tr>
-                                                <?php endforeach ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card strpied-tabled-with-hover">
+                                <br/>
+                                <div class="col-md-12">
+                                    <a href="crud_files/add_transaction.php">
+                                        <button type='submit' class='btn btn-info btn-fill pull-right'>Add New Transaction</button>
+                                    </a>
+                                </div>
+                                <div class="card-header ">
+                                    <h4 class="card-title">Transactions</h4>
+                                    <p class="card-category">Here is a subtitle for this table</p>
+                                </div>
+                                
+                                <div class="card-body table-full-width table-responsive">
+                                
+                                    <table class="table table-hover table-striped">
+                                        <thead>
+                                            <th>Date Log</th>
+                                            <th>Document Code</th>
+                                            <th>Action</th>
+                                            <th>Office</th>
+                                            <th>Employee</th>
+                                            <th>Remarks</th>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach($transactions as $transaction) :?>
+                                            <tr>
+                                                <td><?php echo $transaction['datelog'];?></td>
+                                                <td><?php echo $transaction['documentcode'];?></td>
+                                                <td><?php echo $transaction['action'];?></td>
+                                                <td><?php echo $transaction['office_name'];?></td>
+                                                <td><?php echo $transaction['employee_fullname'];?></td>
+                                                <td><?php echo $transaction['remarks'];?></td>
+                                            </tr>
+                                            <?php endforeach ?>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <?php
+                        for($page=1; $page <= $number_of_page; $page++){
+                            echo '<a href="transaction.php?page='. $page . '">' . $page. '</a>';
+                        }
+                    ?>
                 </div>
             </div>
             <footer class="footer">

@@ -28,8 +28,25 @@
     require('config/config.php');
     require('config/db.php');
 
+    $results_per_page = 10;
+
+    $query = "SELECT * FROM office";
+    $result = mysqli_query($conn, $query); 
+    $number_of_result = mysqli_num_rows($result);
+
+    $number_of_page = ceil($number_of_result / $results_per_page);
+
+    if(!isset($_GET['page'])){
+        $page = 1;
+    }
+    else{
+        $page = $_GET['page'];
+    }
+
+    $page_first_result = ($page-1) * $results_per_page;
+
     //Create Query
-    $query = 'SELECT * FROM office ORDER BY name';
+    $query = 'SELECT * FROM office ORDER BY name LIMIT '. $page_first_result . ','. $results_per_page;
 
     //Get the Result
     $result =  mysqli_query($conn, $query);
@@ -56,49 +73,54 @@
             <div class="content">
                 <div class="container-fluid">
                     <div class="section">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card strpied-tabled-with-hover">
-                                    <br/>
-                                    <div class="col-md-12">
-                                        <a href="crud_files/add_office.php">
-                                            <button type='submit' class='btn btn-info btn-fill pull-right'>Add New Office</button>
-                                        </a>
-                                    </div>
-                                    <div class="card-header ">
-                                        <h4 class="card-title">Offices</h4>
-                                        <p class="card-category">Here is a subtitle for this table</p>
-                                    </div>
-                                    <div class="card-body table-full-width table-responsive">
-                                        <table class="table table-hover table-striped">
-                                            <thead>
-                                                <th>Name</th>
-                                                <th>Contact Number</th>
-                                                <th>Email</th>
-                                                <th>Address</th>
-                                                <th>City</th>
-                                                <th>Country</th>
-                                                <th>Postal</th>
-                                            </thead>
-                                            <tbody>
-                                                <?php foreach($offices as $office) :?>
-                                                <tr>
-                                                    <td><?php echo $office['name'];?></td>
-                                                    <td><?php echo $office['contactnum'];?></td>
-                                                    <td><?php echo $office['email'];?></td>
-                                                    <td><?php echo $office['address'];?></td>
-                                                    <td><?php echo $office['city'];?></td>
-                                                    <td><?php echo $office['country'];?></td>
-                                                    <td><?php echo $office['postal'];?></td>
-                                                </tr>
-                                                <?php endforeach ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card strpied-tabled-with-hover">
+                                <br/>
+                                <div class="col-md-12">
+                                    <a href="crud_files/add_office.php">
+                                        <button type='submit' class='btn btn-info btn-fill pull-right'>Add New Office</button>
+                                    </a>
+                                </div>
+                                <div class="card-header ">
+                                    <h4 class="card-title">Offices</h4>
+                                    <p class="card-category">Here is a subtitle for this table</p>
+                                </div>
+                                <div class="card-body table-full-width table-responsive">
+                                    <table class="table table-hover table-striped">
+                                        <thead>
+                                            <th>Name</th>
+                                            <th>Contact Number</th>
+                                            <th>Email</th>
+                                            <th>Address</th>
+                                            <th>City</th>
+                                            <th>Country</th>
+                                            <th>Postal</th>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach($offices as $office) :?>
+                                            <tr>
+                                                <td><?php echo $office['name'];?></td>
+                                                <td><?php echo $office['contactnum'];?></td>
+                                                <td><?php echo $office['email'];?></td>
+                                                <td><?php echo $office['address'];?></td>
+                                                <td><?php echo $office['city'];?></td>
+                                                <td><?php echo $office['country'];?></td>
+                                                <td><?php echo $office['postal'];?></td>
+                                            </tr>
+                                            <?php endforeach ?>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <?php
+                        for($page=1; $page <= $number_of_page; $page++){
+                            echo '<a href="office.php?page='. $page . '">' . $page. '</a>';
+                        }
+                    ?>
                 </div>
             </div>
             <footer class="footer">
