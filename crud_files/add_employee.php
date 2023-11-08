@@ -3,6 +3,10 @@
 <head>
 <title>Add Employee</title>
 </head>
+<?php
+    require('..\config\config.php');
+    require('..\config\db.php');   
+?>
 <body>
     <h1>ADD EMPLOYEE</h1>
 
@@ -12,8 +16,6 @@
         <label>Office ID:</label>
             <select name="office_id" id="office_id" required>
                 <?php
-                    require('..\config\config.php');
-                    require('..\config\db.php');   
                     $office_Id = [];
                     $result = $conn->query("SELECT id FROM recordsapp.office");
                     while ($row = $result->fetch_assoc()) {
@@ -37,21 +39,20 @@
         $address = $_POST["address"];
 
         $sql= "INSERT into recordsapp.employee(lastname,
-    firstname, office_id, address)
-    VALUES('$last_name', '$first_name', '$office_id', '$address')";
+                    firstname, office_id, address)
+        VALUES('$last_name', '$first_name', '$office_id', '$address')";
 
-    $result = mysqli_query($conn, $sql) or die("connection failed" . $conn->connect_error);
-    if($result){
-        header("Location: ../index.php?msg=New record has been added.");
-        echo "New record has been added.";
-
-    }
-    else {
+        $result = mysqli_query($conn, $sql) or die("connection failed" . $conn->connect_error);
+        if($result){
+            header("Location: ../index.php?msg=New record has been added.");
+            echo "New record has been added.";
+        }
+        else {
         echo "Not successful.";
-    }
+        }
     }
     else{
         echo "Fill out all fields";
     }
-
+    $conn->close();
 ?>

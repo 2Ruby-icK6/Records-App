@@ -45,9 +45,6 @@ if (isset($_POST['submit'])) {
         echo "Not successful.";
     }
 }
-else{
-    echo "Fill out all fields";
-}
 
 
 $conn->close();
