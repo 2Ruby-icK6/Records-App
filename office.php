@@ -145,7 +145,7 @@
                     </div>
                     <?php
                         for($page=1; $page <= $number_of_page; $page++){
-                            echo '<a href="office.php?page='. $page . '">' . $page. '</a>';
+                            echo '<a href="office.php?page='. $page . '">' . " $page ". '</a>';
                         }
                     ?>
                 </div>

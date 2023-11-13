@@ -27,8 +27,10 @@
 <?php
     require('config/config.php');
     require('config/db.php');
-
-    $search = $_GET['search'];
+    if(isset($_GET['search'])){
+        $search = $_GET['search'];
+    }
+    
 
     $results_per_page = 10;
 
@@ -48,7 +50,7 @@
     // determine the sql LIMIT starting number for the results on the display page 
     $page_first_result = ($page-1) * $results_per_page;
 
-    if (strlen($search)>0){
+    if (isset($_GET['search'])){
         $query = 'SELECT transaction.id, transaction.datelog, transaction.documentcode, transaction.action, office.name AS office_name, 
             CONCAT(employee.lastname,"," ,employee.firstname) AS employee_fullname, transaction.remarks FROM recordsapp.employee, recordsapp.office, recordsapp.transaction 
             WHERE transaction.employee_id = employee.id AND transaction.office_id = office.id AND transaction.documentcode =' . $search . ' ORDER BY transaction.documentcode, transaction.datelog LIMIT '. $page_first_result . ','. $results_per_page;
@@ -153,7 +155,7 @@
                     </div>
                     <?php
                         for($page=1; $page <= $number_of_page; $page++){
-                            echo '<a href="transaction.php?page='. $page . '">' . $page. '</a>';
+                            echo '<a href="transaction.php?page='. $page . '">' . " $page ". '</a>';
                         }
                     ?>
                 </div>

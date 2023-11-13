@@ -1,27 +1,34 @@
 <!-- php -S 127.0.0.1:8000 -->
 <!-- run it  -->
 <!-- Records App 01.mp4 -->
-<!DOCTYPE html>
-<html lang="en">
+<?php
+    require('../config/config.php'); 
+    require('../config/db.php');
 
-<head>
-    <meta charset="utf-8" />
-    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="assets/img/favicon.ico">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Light Bootstrap Dashboard - Free Bootstrap 4 Admin Dashboard by Creative Tim</title>
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-    <!--     Fonts and icons     -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
-    <!-- CSS Files -->
-    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="../assets/css/light-bootstrap-dashboard.css?v=2.0.0 " rel="stylesheet" />
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link href="../assets/css/demo.css" rel="stylesheet" />
-</head>
+    //check if submitted 
+    if(isset($_POST['submit'])){
+        // Get form data
+        $documentcode = mysqli_real_escape_string($conn, $_POST['documentcode']); 
+        $action = mysqli_real_escape_string($conn, $_POST['action']); 
+        $remarks = mysqli_real_escape_string($conn, $_POST['remarks']); 
+        $employee_id = mysqli_real_escape_string($conn, $_POST['employee_id']); 
+        $office_id = mysqli_real_escape_string($conn, $_POST['office_id']); 
 
-<body>
+        // Create insert query
+        $query = "UPDATE transaction SET datelog= sysdate(), documentcode= '$documentcode', action='$action', remarks= '$remarks', 
+            employee_id= '$employee_id', office_id= '$office_id' WHERE (id=" . $id .")";
+            
+        // Execute query
+        if(mysqli_query($conn, $query)){
+            header("Location: ../index.php");
+            die();
+        }
+        else{
+            echo 'ERROR: mysqli_error($conn)';
+        }
+    }
+
+?> 
 <?php
     require('../config/config.php'); 
     require('../config/db.php');
@@ -49,6 +56,27 @@
     mysqli_close($conn);
 
 ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="assets/img/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Light Bootstrap Dashboard - Free Bootstrap 4 Admin Dashboard by Creative Tim</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <!-- CSS Files -->
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../assets/css/light-bootstrap-dashboard.css?v=2.0.0 " rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="../assets/css/demo.css" rel="stylesheet" />
+</head>
+
+<body>
     <div class="wrapper">
         <div class="sidebar" data-image="../assets/img/sidebar-5.jpg">
             
@@ -60,33 +88,7 @@
         <div class="main-panel">
         <?php include('../Includes/navabar.php'); ?>
         
-<?php
-    require('../config/config.php'); 
-    require('../config/db.php');
-
-    //check if submitted 
-    if(isset($_POST['submit'])){
-        // Get form data
-        $documentcode = mysqli_real_escape_string($conn, $_POST['documentcode']); 
-        $action = mysqli_real_escape_string($conn, $_POST['action']); 
-        $remarks = mysqli_real_escape_string($conn, $_POST['remarks']); 
-        $employee_id = mysqli_real_escape_string($conn, $_POST['employee_id']); 
-        $office_id = mysqli_real_escape_string($conn, $_POST['office_id']); 
-
-        // Create insert query
-        $query = "UPDATE transaction SET datelog= sysdate(), documentcode= '$documentcode', action='$action', remarks= '$remarks', 
-            employee_id= '$employee_id', office_id= '$office_id' WHERE (id=" . $id .")";
-            
-        // Execute query
-        if(mysqli_query($conn, $query)){
-
-        }
-        else{
-            echo 'ERROR: mysqli_error($conn)';
-        }
-    }
-
-?>           
+          
 
             <div class="content">
                 <div class="container-fluid">
