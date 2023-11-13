@@ -28,8 +28,35 @@
     require('config/config.php');
     require('config/db.php');
 
+    // $search = $_GET['search']. "";
+
+    $results_per_page = 10;
+
+    $query = "SELECT * FROM employee";
+    $result = mysqli_query($conn, $query); 
+    $number_of_result = mysqli_num_rows($result);
+
+    $number_of_page = ceil($number_of_result / $results_per_page);
+
+    if(!isset($_GET['page'])){
+        $page = 1;
+    }
+    else{
+        $page = $_GET['page'];
+    }
+
+    $page_first_result = ($page-1) * $results_per_page;
+
+    // if (strlen($search)>0){
+    //     $query = 'SELECT * FROM office where office.name =' . $search . ' ORDER BY office.name LIMIT ' . $page_first_result . ','. $results_per_page;
+        
+    // }else{
+    //     $query = 'SELECT * FROM office ORDER BY name LIMIT '. $page_first_result . ','. $results_per_page;
+    // }
+
     //Create Query
-    $query = 'SELECT employee.lastname, employee.firstname, employee.address, office.name AS office_name FROM employee, office WHERE employee.office_id = office.id';
+    $query = 'SELECT employee.id, employee.lastname, employee.firstname, employee.address, office.name AS office_name FROM employee, office 
+        WHERE employee.office_id = office.id ORDER BY employee.lastname LIMIT '. $page_first_result . ','. $results_per_page;
 
     //Get the Result
     $result =  mysqli_query($conn, $query);
@@ -52,44 +79,70 @@
         </div>
         <div class="main-panel">
         <?php include('Includes/navabar.php'); ?>
-        <a class="btn btn-primary" href="#" role="button">Add Employee</a>
-        <a class="btn btn-primary" href="#" role="button">Delete Employee</a>
-        <a class="btn btn-primary" href="#" role="button">Edit Employee</a>
-            
+      
             <div class="content">
                 <div class="container-fluid">
                     <div class="section">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card strpied-tabled-with-hover">
-                                    <div class="card-header ">
-                                        <h4 class="card-title">Employees</h4>
-                                        <p class="card-category">Here is a subtitle for this table</p>
-                                    </div>
-                                    <div class="card-body table-full-width table-responsive">
-                                        <table class="table table-hover table-striped">
-                                            <thead>
-                                                <th>Last name</th>
-                                                <th>First name</th>
-                                                <th>Address</th>
-                                                <th>Office</th>
-                                            </thead>
-                                            <tbody>
-                                                <?php foreach($employees as $employee) :?>
-                                                <tr>
-                                                    <td><?php echo $employee['lastname'];?></td>
-                                                    <td><?php echo $employee['firstname'];?></td>
-                                                    <td><?php echo $employee['address'];?></td>
-                                                    <td><?php echo $employee['office_name'];?></td>
-                                                </tr>
-                                                <?php endforeach ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card strpied-tabled-with-hover">
+                                <br/>
+                                <!-- <div class="col-md-10">
+                                    <form action="office.php" method="GET">
+                                        <input type="text" name='search' />
+                                        <input type="submit" value='Search' class='btn btn-info btn-fill' />
+                                    </form>
+                                </div> -->
+                                <div class="col-md-12">
+                                    <a href="crud_files/add_employee.php">
+                                        <button type='submit' class='btn btn-info btn-fill pull-left'>Add New Employee</button>
+                                    </a>
+                                </div>
+                                <div class="card-header ">
+                                    <h4 class="card-title">Employees</h4>
+                                    <p class="card-category">Here is a subtitle for this table</p>
+                                </div>
+                                <div class="card-body table-full-width table-responsive">
+                                    <table class="table table-hover table-striped">
+                                        <thead>
+                                            <th>Last name</th>
+                                            <th>First name</th>
+                                            <th>Address</th>
+                                            <th>Office</th>
+                                            <th>Edit</th>
+                                            <th>Delete</th>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach($employees as $employee) :?>
+                                            <tr>
+                                                <td><?php echo $employee['lastname'];?></td>
+                                                <td><?php echo $employee['firstname'];?></td>
+                                                <td><?php echo $employee['address'];?></td>
+                                                <td><?php echo $employee['office_name'];?></td>
+                                                <td>
+                                                    <a href="crud_files/edit_employee.php?id=<?php echo $employee['id'];?>">
+                                                        <button type="submit" class="btn btn-warning btn-fill pull-right">Edit</button>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href="crud_files/delete_employee.php?id=<?php echo $employee['id'];?>">
+                                                        <button type="submit" class="btn btn-warning btn-fill pull-right">Delete</button>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <?php endforeach ?>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <?php
+                        for($page=1; $page <= $number_of_page; $page++){
+                            echo '<a href="employee.php?page='. $page . '">' . $page. '</a>';
+                        }
+                    ?>
                 </div>
             </div>
             <footer class="footer">
