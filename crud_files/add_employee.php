@@ -1,6 +1,32 @@
 <!-- php -S 127.0.0.1:8000 -->
 <!-- run it  -->
 <!-- Records App 01.mp4 -->
+<?php
+    require('../config/config.php'); 
+    require('../config/db.php');
+
+    //check if submitted 
+    if(isset($_POST['submit'])){
+        // Get form data
+        $lastname = mysqli_real_escape_string($conn, $_POST['lastname']); 
+        $firstname = mysqli_real_escape_string($conn, $_POST['firstname']); 
+        $office_id = mysqli_real_escape_string($conn, $_POST['office_id']); 
+        $address = mysqli_real_escape_string($conn, $_POST['address']); 
+
+        // Create insert query
+        $query = "INSERT INTO employee (lastname, firstname, office_id, address) 
+            VALUES ('$lastname', '$firstname', '$office_id', '$address')";
+            
+        // Execute query
+        if(mysqli_query($conn, $query)){
+            header("Location: ../index.php");
+            die();
+        }
+        else{
+            echo 'ERROR: mysqli_error($conn)';
+        }
+    }
+?> 
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,32 +59,7 @@
         <div class="main-panel">
         <?php include('../Includes/navabar.php'); ?>
         
-<?php
-    require('../config/config.php'); 
-    require('../config/db.php');
-
-    //check if submitted 
-    if(isset($_POST['submit'])){
-        // Get form data
-        $lastname = mysqli_real_escape_string($conn, $_POST['lastname']); 
-        $firstname = mysqli_real_escape_string($conn, $_POST['firstname']); 
-        $office_id = mysqli_real_escape_string($conn, $_POST['office_id']); 
-        $address = mysqli_real_escape_string($conn, $_POST['address']); 
-
-        // Create insert query
-        $query = "INSERT INTO employee (lastname, firstname, office_id, address) 
-            VALUES ('$lastname', '$firstname', '$office_id', '$address')";
-            
-        // Execute query
-        if(mysqli_query($conn, $query)){
-
-        }
-        else{
-            echo 'ERROR: mysqli_error($conn)';
-        }
-    }
-
-?>           
+          
 
             <div class="content">
                 <div class="container-fluid">

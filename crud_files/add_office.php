@@ -1,6 +1,37 @@
 <!-- php -S 127.0.0.1:8000 -->
 <!-- run it  -->
 <!-- Records App 01.mp4 -->
+<?php
+    require('../config/config.php'); 
+    require('../config/db.php');
+
+    //check if submitted 
+    if(isset($_POST['submit'])){
+        // Get form data
+        $name = mysqli_real_escape_string($conn, $_POST['name']); 
+        $contactnum = mysqli_real_escape_string($conn, $_POST['contactnum']); 
+        $email = mysqli_real_escape_string($conn, $_POST['email']); 
+        $address = mysqli_real_escape_string($conn, $_POST['address']); 
+        $city = mysqli_real_escape_string($conn, $_POST['city']); 
+        $country = mysqli_real_escape_string($conn, $_POST['country']); 
+        $postal = mysqli_real_escape_string($conn, $_POST['postal']);
+
+        // Create insert query
+        $query = "INSERT INTO office (name, contactnum, email, address, city, country, postal) 
+            VALUES ('$name', '$contactnum', '$email', '$address', '$city', '$country', '$postal')";
+            
+        // Execute query
+        $result = mysqli_query($conn, $query) or die("connection failed" . $conn->connect_error);
+
+        if($result){
+            header("Location: ../index.php");
+            die();
+        }
+        else{
+            echo 'ERROR: mysqli_error($conn)';
+        }
+    }
+?>    
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,35 +64,7 @@
         <div class="main-panel">
         <?php include('../Includes/navabar.php'); ?>
         
-<?php
-    require('../config/config.php'); 
-    require('../config/db.php');
-
-    //check if submitted 
-    if(isset($_POST['submit'])){
-        // Get form data
-        $name = mysqli_real_escape_string($conn, $_POST['name']); 
-        $contactnum = mysqli_real_escape_string($conn, $_POST['contactnum']); 
-        $email = mysqli_real_escape_string($conn, $_POST['email']); 
-        $address = mysqli_real_escape_string($conn, $_POST['address']); 
-        $city = mysqli_real_escape_string($conn, $_POST['city']); 
-        $country = mysqli_real_escape_string($conn, $_POST['country']); 
-        $postal = mysqli_real_escape_string($conn, $_POST['postal']);
-
-        // Create insert query
-        $query = "INSERT INTO office (name, contactnum, email, address, city, country, postal) 
-            VALUES ('$name', '$contactnum', '$email', '$address', '$city', '$country', '$postal')";
-            
-        // Execute query
-        if(mysqli_query($conn, $query)){
-
-        }
-        else{
-            echo 'ERROR: mysqli_error($conn)';
-        }
-    }
-
-?>           
+       
 
             <div class="content">
                 <div class="container-fluid">
